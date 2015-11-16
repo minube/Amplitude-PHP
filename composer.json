@@ -1,0 +1,26 @@
+{
+  "name": "minube/amplitude-php",
+  "homepage": "http://minube.com",
+  "description": "Amplitude SDK for PHP - Use Amplitude in your PHP project",
+  "keywords": [
+    "amplitude",
+    "sdk"
+  ],
+  "type": "library",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Minube",
+      "homepage": "http://www.minube.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Amplitude\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=5.3.3",
+    "guzzlehttp/guzzle": "3.8.1"
+  }
+}
