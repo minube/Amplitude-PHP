@@ -21,6 +21,6 @@
   },
   "require": {
     "php": ">=5.3.3",
-    "guzzlehttp/guzzle": "3.8.1"
+    "guzzle/guzzle": "~3.9"
   }
 }
