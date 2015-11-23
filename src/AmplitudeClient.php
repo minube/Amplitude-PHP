@@ -47,7 +47,8 @@ class AmplitudeClient implements AmplitudeClientInterface
      */
     public function track(Message\Event $event)
     {
-        $this->getClient()->post(null, null, $this->getPostBody($event));
+        $request = $this->getClient()->post(null, null, $this->getPostBody($event));
+        return $request->send();
     }
 
     protected function getPostBody(Message\Event $event)
