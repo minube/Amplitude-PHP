@@ -134,6 +134,7 @@ class Event extends EventAbstract
                 'ip' => $this->getIp(),
                 'idfa' => $this->getIdfa(),
                 'adid' => $this->getAdid(),
+                'session_id' => $this->getSessionId(),
             )
         );
     }
