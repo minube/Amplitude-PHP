@@ -19,10 +19,10 @@ class Event extends EventAbstract
     protected $time;
 
     /** @var array */
-    protected $eventProperties;
+    protected $eventProperties = array();
 
     /** @var array */
-    protected $userProperties;
+    protected $userProperties = array();
 
     /** @var string */
     protected $appVersion;
@@ -84,6 +84,9 @@ class Event extends EventAbstract
     /** @var string */
     protected $adid;
 
+    /** @var integer */
+    protected $sessionId;
+
     /**
      * @param string $name
      * @param string $value
@@ -133,5 +136,27 @@ class Event extends EventAbstract
                 'adid' => $this->getAdid(),
             )
         );
+    }
+
+    /**
+     * @param sring $name
+     * @param mixed $value
+     * @return $this
+     */
+    public function addToEventProperties($name, $value)
+    {
+        $this->eventProperties[$name] = $value;
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return $this
+     */
+    public function addToUserProperties($name, $value)
+    {
+        $this->userProperties[$name] = $value;
+        return $this;
     }
 }
