@@ -51,6 +51,11 @@ class AmplitudeClient implements AmplitudeClientInterface
         return $request->send();
     }
 
+    /**
+     * Get post body
+     * @param Message\Event $event
+     * @return array
+     */
     protected function getPostBody(Message\Event $event)
     {
         return array(
