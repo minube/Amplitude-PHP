@@ -101,6 +101,17 @@ class Event extends EventAbstract
     }
 
     /**
+     * Set revenue to the main object and event properties
+     * @param float $revenue
+     * @return $this
+     */
+    public function setRevenue($revenue)
+    {
+        return $this->set('revenue', $revenue)
+            ->addToEventProperties('revenue', $revenue);
+    }
+
+    /**
      * Format entity
      * @return string
      */
