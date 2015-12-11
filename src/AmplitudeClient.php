@@ -4,7 +4,7 @@ namespace Amplitude;
 use Guzzle\Http\Client;
 
 /**
- * Default AWS client implementation
+ * Default Amplitude client implementation
  */
 class AmplitudeClient implements AmplitudeClientInterface
 {
