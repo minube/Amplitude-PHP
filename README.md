@@ -17,6 +17,5 @@ $amplitudeEvent->set('city_id', 123)
 // For event properties
 $amplitudeEvent->addToEventProperties('revenue', 12.34);
 
-$amplitudeEvent->setRevenue($this->revenue);
 $response = $amplitudeClient->track($amplitudeEvent);
 ```
