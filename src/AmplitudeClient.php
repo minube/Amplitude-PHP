@@ -1,14 +1,14 @@
 <?php
+
 namespace Amplitude;
 
 use Guzzle\Http\Client;
 
 /**
- * Default Amplitude client implementation
+ * Default Amplitude client implementation.
  */
 class AmplitudeClient implements AmplitudeClientInterface
 {
-
     /** @var string */
     const AMPLITUDE_URL = 'https://api.amplitude.com/httpapi';
 
@@ -24,6 +24,7 @@ class AmplitudeClient implements AmplitudeClientInterface
 
     /**
      * AmplitudeClient constructor.
+     *
      * @param null|string $apiKey
      */
     public function __construct($apiKey = null)
@@ -43,29 +44,34 @@ class AmplitudeClient implements AmplitudeClientInterface
 
     /**
      * @param Message\Event $event
+     *
      * @return Message\Response
      */
     public function track(Message\Event $event)
     {
         $request = $this->getClient()->post(null, null, $this->getPostBody($event));
+
         return $request->send();
     }
 
     /**
-     * Get post body
+     * Get post body.
+     *
      * @param Message\Event $event
+     *
      * @return array
      */
     protected function getPostBody(Message\Event $event)
     {
-        return array(
+        return [
             'api_key' => $this->apiKey,
-            'event' => $event->format(),
-        );
+            'event'   => $event->format(),
+        ];
     }
 
     /**
-     * Get client
+     * Get client.
+     *
      * @return Client
      */
     protected function getClient()
@@ -73,6 +79,7 @@ class AmplitudeClient implements AmplitudeClientInterface
         if (null === $this->client) {
             $this->client = new Client(self::AMPLITUDE_URL);
         }
+
         return $this->client;
     }
 }

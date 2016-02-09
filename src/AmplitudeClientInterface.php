@@ -1,4 +1,5 @@
 <?php
+
 namespace Amplitude;
 
 /**
@@ -8,6 +9,7 @@ interface AmplitudeClientInterface
 {
     /**
      * @param Message\Event $request
+     *
      * @return Message\Response
      */
     public function track(Message\Event $event);
