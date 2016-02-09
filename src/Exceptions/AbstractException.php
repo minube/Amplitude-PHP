@@ -8,5 +8,5 @@ abstract class AbstractException extends \Exception
     protected $code = 500;
 
     /** @var string */
-    protected $message = "Amplitude Error";
+    protected $message = 'Amplitude Error';
 }

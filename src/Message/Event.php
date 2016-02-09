@@ -1,8 +1,9 @@
 <?php
+
 namespace Amplitude\Message;
 
 /**
- * Event to be tracked by Amplitude
+ * Event to be tracked by Amplitude.
  */
 class Event extends EventAbstract
 {
@@ -19,10 +20,10 @@ class Event extends EventAbstract
     protected $time;
 
     /** @var array */
-    protected $eventProperties = array();
+    protected $eventProperties = [];
 
     /** @var array */
-    protected $userProperties = array();
+    protected $userProperties = [];
 
     /** @var string */
     protected $appVersion;
@@ -84,12 +85,13 @@ class Event extends EventAbstract
     /** @var string */
     protected $adid;
 
-    /** @var integer */
+    /** @var int */
     protected $sessionId;
 
     /**
      * @param string $name
      * @param string $value
+     *
      * @return $this
      */
     public function set($name, $value)
@@ -97,12 +99,15 @@ class Event extends EventAbstract
         if (property_exists(get_class(), $name)) {
             $this->{$name} = $value;
         }
+
         return $this;
     }
 
     /**
-     * Set revenue to the main object and event properties
+     * Set revenue to the main object and event properties.
+     *
      * @param float $revenue
+     *
      * @return $this
      */
     public function setRevenue($revenue)
@@ -112,63 +117,68 @@ class Event extends EventAbstract
     }
 
     /**
-     * Format entity
+     * Format entity.
+     *
      * @return string
      */
     public function format()
     {
         return json_encode(
-            array(
-                'user_id' => $this->getUserId(),
-                'device_id' => $this->getDeviceId(),
-                'event_type' => $this->getEventType(),
-                'time' => $this->getTime(),
-                'event_properties' => $this->getEventProperties(),
-                'user_properties' => $this->getUserProperties(),
-                'app_version' => $this->getAppVersion(),
-                'platform' => $this->getPlatform(),
-                'os_name' => $this->getOsName(),
-                'os_version' => $this->getOsVersion(),
-                'device_brand' => $this->getDeviceBrand(),
+            [
+                'user_id'             => $this->getUserId(),
+                'device_id'           => $this->getDeviceId(),
+                'event_type'          => $this->getEventType(),
+                'time'                => $this->getTime(),
+                'event_properties'    => $this->getEventProperties(),
+                'user_properties'     => $this->getUserProperties(),
+                'app_version'         => $this->getAppVersion(),
+                'platform'            => $this->getPlatform(),
+                'os_name'             => $this->getOsName(),
+                'os_version'          => $this->getOsVersion(),
+                'device_brand'        => $this->getDeviceBrand(),
                 'device_manufacturer' => $this->getDeviceManufacturer(),
-                'device_model' => $this->getDeviceModel(),
-                'device_type' => $this->getDeviceType(),
-                'carrier' => $this->getCarrier(),
-                'country' => $this->getCountry(),
-                'region' => $this->getRegion(),
-                'city' => $this->getCity(),
-                'dma' => $this->getDma(),
-                'language' => $this->getLanguage(),
-                'revenue' => $this->getRevenue(),
-                'location_lat' => $this->getLocationLat(),
-                'location_lng' => $this->getLocationLng(),
-                'ip' => $this->getIp(),
-                'idfa' => $this->getIdfa(),
-                'adid' => $this->getAdid(),
-                'session_id' => $this->getSessionId(),
-            )
+                'device_model'        => $this->getDeviceModel(),
+                'device_type'         => $this->getDeviceType(),
+                'carrier'             => $this->getCarrier(),
+                'country'             => $this->getCountry(),
+                'region'              => $this->getRegion(),
+                'city'                => $this->getCity(),
+                'dma'                 => $this->getDma(),
+                'language'            => $this->getLanguage(),
+                'revenue'             => $this->getRevenue(),
+                'location_lat'        => $this->getLocationLat(),
+                'location_lng'        => $this->getLocationLng(),
+                'ip'                  => $this->getIp(),
+                'idfa'                => $this->getIdfa(),
+                'adid'                => $this->getAdid(),
+                'session_id'          => $this->getSessionId(),
+            ]
         );
     }
 
     /**
      * @param sring $name
      * @param mixed $value
+     *
      * @return $this
      */
     public function addToEventProperties($name, $value)
     {
         $this->eventProperties[$name] = $value;
+
         return $this;
     }
 
     /**
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
+     *
      * @return $this
      */
     public function addToUserProperties($name, $value)
     {
         $this->userProperties[$name] = $value;
+
         return $this;
     }
 }
