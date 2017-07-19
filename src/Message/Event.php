@@ -6,6 +6,8 @@ namespace Amplitude\Message;
  */
 class Event extends EventAbstract
 {
+    const ERROR_DEVICE_ID = 'error-device-id';
+
     /** @var int */
     protected $userId;
 
@@ -151,7 +153,7 @@ class Event extends EventAbstract
     }
 
     /**
-     * @param sring $name
+     * @param string $name
      * @param mixed $value
      * @return $this
      */
@@ -170,5 +172,13 @@ class Event extends EventAbstract
     {
         $this->userProperties[$name] = $value;
         return $this;
+    }
+
+    protected function getDeviceId()
+    {
+        if (empty($this->deviceId)) {
+            return self::ERROR_DEVICE_ID;
+        }
+        return $this->deviceId;
     }
 }
