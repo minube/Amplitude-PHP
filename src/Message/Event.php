@@ -148,7 +148,8 @@ class Event extends EventAbstract
                 'idfa' => $this->getIdfa(),
                 'adid' => $this->getAdid(),
                 'session_id' => $this->getSessionId(),
-            )
+            ),
+            JSON_FORCE_OBJECT
         );
     }
 
