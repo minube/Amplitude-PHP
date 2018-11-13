@@ -87,6 +87,12 @@ class Event extends EventAbstract
     protected $adid;
 
     /** @var integer */
+    protected $insertId;
+
+    /** @var integer */
+    protected $eventId;
+
+    /** @var integer */
     protected $sessionId;
 
     /**
@@ -121,6 +127,9 @@ class Event extends EventAbstract
     {
         return json_encode(
             array(
+                'insert_id' => $this->getInsertId(),
+                'event_id' => $this->getEventId(),
+                'session_id' => $this->getSessionId(),
                 'user_id' => $this->getUserId(),
                 'device_id' => $this->getDeviceId(),
                 'event_type' => $this->getEventType(),
@@ -146,8 +155,7 @@ class Event extends EventAbstract
                 'location_lng' => $this->getLocationLng(),
                 'ip' => $this->getIp(),
                 'idfa' => $this->getIdfa(),
-                'adid' => $this->getAdid(),
-                'session_id' => $this->getSessionId(),
+                'adid' => $this->getAdid()
             ),
             JSON_FORCE_OBJECT
         );
@@ -181,5 +189,38 @@ class Event extends EventAbstract
             return self::ERROR_DEVICE_ID;
         }
         return $this->deviceId;
+    }
+
+    protected function getInsertId()
+    {
+        if (empty($this->insertId)) {
+            $time = (int) floor(microtime(true) * 1000);
+            $this->insertId = "{$this->eventType}-{$this->userId}-{$this->deviceId}-{$time}";
+        }
+        return $this->insertId;
+    }
+
+    protected function getTime()
+    {
+        if (empty($this->time)) {
+            $this->time = (int) floor(microtime(true) * 1000);
+        }
+        return $this->time;
+    }
+
+    protected function getSessionId()
+    {
+        if (empty($this->sessionId)) {
+            $this->sessionId = -1;
+        }
+        return $this->sessionId;
+    }
+
+    protected function getEventId()
+    {
+        if (empty($this->eventId)) {
+            $this->eventId = (int) ceil(microtime(true));
+        }
+        return $this->eventId;
     }
 }

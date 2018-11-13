@@ -1,7 +1,7 @@
 <?php
 namespace Amplitude;
 
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 
 /**
  * Default Amplitude client implementation
@@ -9,11 +9,15 @@ use Guzzle\Http\Client;
 class AmplitudeClient implements AmplitudeClientInterface
 {
     /** @var string */
-    const AMPLITUDE_EVENT_URL = 'https://api.amplitude.com/httpapi';
+    const EVENT_URI = '/httpapi';
 
     /** @var string */
-    const AMPLITUDE_IDENTIFY_URL = 'https://api.amplitude.com/identify';
+    const IDENTIFY_URI = '/identify';
 
+    /** @var string */
+    const AMPLITUDE_BASE_URL = 'https://api.amplitude.com';
+
+    /** @var string */
     const DEFAULT_EVENT_TYPE = 'event';
 
     /**
@@ -51,10 +55,14 @@ class AmplitudeClient implements AmplitudeClientInterface
      */
     public function track(Message\Event $event)
     {
-        $request = $this->getClient(self::AMPLITUDE_EVENT_URL)->post(
-            null, null, $this->getPostBody($event)
-        );
-        return $request->send();
+        $request = new \GuzzleHttp\Psr7\Request('POST', self::EVENT_URI);
+        $options = [
+            'headers' => [
+                'Accept-Encoding' => 'gzip',
+            ],
+            \GuzzleHttp\RequestOptions::QUERY => $this->getPostBody($event)
+        ];
+        return $this->getClient()->send($request, $options);
     }
 
     /**
@@ -63,10 +71,14 @@ class AmplitudeClient implements AmplitudeClientInterface
      */
     public function identify(Message\Event $event)
     {
-        $request = $this->getClient(self::AMPLITUDE_IDENTIFY_URL)->post(
-            null, null, $this->getPostBody($event, 'identification')
-        );
-        return $request->send();
+        $request = new \GuzzleHttp\Psr7\Request('POST', self::IDENTIFY_URI);
+        $options = [
+            'headers' => [
+                'Accept-Encoding' => 'gzip',
+            ],
+            \GuzzleHttp\RequestOptions::QUERY => $this->getPostBody($event, 'identification')
+        ];
+        return $this->getClient()->send($request, $options);
     }
 
     /**
@@ -87,10 +99,16 @@ class AmplitudeClient implements AmplitudeClientInterface
      * Get client
      * @return Client
      */
-    protected function getClient($url)
+    protected function getClient()
     {
         if (null === $this->client) {
-            $this->client = new Client($url);
+            $this->client = new Client([
+                'base_uri' => self::AMPLITUDE_BASE_URL,
+                'timeout'  => 3.0,
+                'debug' => false,
+                'verify' => false,
+                'decode_content' => true
+            ]);
         }
         return $this->client;
     }
