@@ -7,7 +7,7 @@ namespace Amplitude;
 interface AmplitudeClientInterface
 {
     /**
-     * @param Message\Event $request
+     * @param Message\Event $event
      * @return Message\Response
      */
     public function track(Message\Event $event);
