@@ -20,6 +20,9 @@ class AmplitudeClient implements AmplitudeClientInterface
     /** @var string */
     const DEFAULT_EVENT_TYPE = 'event';
 
+    const MAX_RETRIES = 6;
+    const TIME_TO_SLEEP_PER_RETRY = 300;
+
     /**
      * @var string
      */
@@ -51,9 +54,10 @@ class AmplitudeClient implements AmplitudeClientInterface
 
     /**
      * @param Message\Event $event
-     * @return Message\Response
+     * @param int $retry
+     * @return false | Message\Response
      */
-    public function track(Message\Event $event)
+    public function track(Message\Event $event, $retry = 0)
     {
         $request = new \GuzzleHttp\Psr7\Request('POST', self::EVENT_URI);
         $options = [
@@ -62,14 +66,26 @@ class AmplitudeClient implements AmplitudeClientInterface
             ],
             \GuzzleHttp\RequestOptions::QUERY => $this->getPostBody($event)
         ];
-        return $this->getClient()->send($request, $options);
+
+        try {
+            return $this->getClient()->send($request, $options);
+        } catch (\Exception $e) {
+            if ($retry < self::MAX_RETRIES) {
+                echo "Retrying {$retry} for code {$e->getCode()}\n";
+                $retry++;
+                sleep($retry * self::TIME_TO_SLEEP_PER_RETRY);
+                return $this->track($event, $retry);
+            }
+        }
+        return false;
     }
 
     /**
      * @param Message\Event $event
-     * @return Message\Response
+     * @param int $retry
+     * @return false | Message\Response
      */
-    public function identify(Message\Event $event)
+    public function identify(Message\Event $event, $retry = 0)
     {
         $request = new \GuzzleHttp\Psr7\Request('POST', self::IDENTIFY_URI);
         $options = [
@@ -78,7 +94,18 @@ class AmplitudeClient implements AmplitudeClientInterface
             ],
             \GuzzleHttp\RequestOptions::QUERY => $this->getPostBody($event, 'identification')
         ];
-        return $this->getClient()->send($request, $options);
+
+        try {
+            return $this->getClient()->send($request, $options);
+        } catch (\Exception $e) {
+            if ($retry < self::MAX_RETRIES) {
+                echo "Retrying {$retry} for code {$e->getCode()}\n";
+                $retry++;
+                sleep($retry * self::TIME_TO_SLEEP_PER_RETRY);
+                return $this->track($event, $retry);
+            }
+        }
+        return false;
     }
 
     /**
