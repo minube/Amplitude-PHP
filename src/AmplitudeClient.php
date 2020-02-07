@@ -26,7 +26,7 @@ class AmplitudeClient implements AmplitudeClientInterface
     /**
      * @var string
      */
-    protected $apiKey = '';
+    public $apiKey = '';
 
     /**
      * @var Client|null
